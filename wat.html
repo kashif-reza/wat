@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISSB WAT Practice</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0d1b2a, #1b263b);
+      color: #f1f1f1;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #00b4d8;
+    }
+
+    #word-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px 60px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      font-size: 2rem;
+      font-weight: 600;
+      color: #f9f9f9;
+      margin-bottom: 1rem;
+      min-width: 250px;
+    }
+
+    #timer {
+      font-size: 1.5rem;
+      color: #00ff88;
+      margin-bottom: 20px;
+    }
+
+    #start-btn {
+      background-color: #00b4d8;
+      color: #fff;
+      border: none;
+      padding: 12px 30px;
+      font-size: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #start-btn:hover {
+      background-color: #0096c7;
+      transform: scale(1.05);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ISSB Word Association Test (WAT) Practice</h1>
+  <div id="word-box">Press "Start" to Begin</div>
+  <div id="timer"></div>
+  <button id="start-btn">Start</button>
+
+  <footer>Made for ISSB practice • Time limit: 10 seconds per word</footer>
+
+  <!-- 🔔 Sound alert file -->
+  <audio id="beep-sound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" preload="auto"></audio>
+
+  <script>
+    // Word list (you can add thousands more here)
+    const words = [
+      "Success", "Failure", "Duty", "Courage", "Leader", "Truth", "Fear", "Time",
+      "Honesty", "Confidence", "Peace", "Respect", "Discipline", "Victory",
+      "Dream", "Hope", "Country", "Effort", "Bravery", "Friendship",
+      "Love", "Ambition", "Sacrifice", "Obedience", "Wisdom",
+      "Justice", "Teamwork", "Responsibility", "Faith", "Goal"
+    ];
+
+    let timer = 10;
+    let interval = null;
+
+    const wordBox = document.getElementById("word-box");
+    const timerBox = document.getElementById("timer");
+    const startBtn = document.getElementById("start-btn");
+    const beep = document.getElementById("beep-sound");
+
+    function getRandomWord() {
+      return words[Math.floor(Math.random() * words.length)];
+    }
+
+    function startWAT() {
+      startBtn.style.display = "none";
+      nextWord();
+    }
+
+    function nextWord() {
+      let currentWord = getRandomWord();
+      wordBox.textContent = currentWord;
+      timer = 10;
+      timerBox.textContent = "Next word in: " + timer + "s";
+
+      interval = setInterval(() => {
+        timer--;
+        timerBox.textContent = "Next word in: " + timer + "s";
+
+        if (timer === 0) {
+          clearInterval(interval);
+          beep.play(); // 🔊 Play alert sound
+          nextWord();
+        }
+      }, 1000);
+    }
+
+    startBtn.addEventListener("click", startWAT);
+  </script>
+</body>
+</html>
